@@ -1,2 +1,7 @@
 [default]
 POSTGRE_SQL_URL = "postgresql://postgres:root@localhost/saglik_cepte_db"
+POSTGRE_DB_NAME = "saglik_cepte_db"
+POSTGRE_DB_USER = "postgres"
+POSTGRE_DB_PASSWORD = "root"
+POSTGRE_DB_HOST = "localhost"
+POSTGRE_DB_PORT = "5432"
