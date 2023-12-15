@@ -1,6 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
 import psycopg2
-import csv
 from dynaconf import settings
 from app.db.postgre import engine, Session
 from app.models.ExampleModel import HastaneVerileri
@@ -9,6 +7,26 @@ session = Session(bind=engine)
 
 def get_all_data():
     return session.query(HastaneVerileri).all()
+
+def get_column_data(table_name, column_names):
+    conn = psycopg2.connect(
+        database=settings.POSTGRE_DB_NAME,
+        user=settings.POSTGRE_DB_USER,
+        password=settings.POSTGRE_DB_PASSWORD,
+        host=settings.POSTGRE_DB_HOST,
+        port=settings.POSTGRE_DB_PORT
+    )
+    cur = conn.cursor()
+    query = "SELECT "
+    for column in column_names:
+        query = query + f"COUNT(DISTINCT {column}) as {column}_count, "
+    query = query[:-2]
+    query = query+f" FROM {table_name}"
+    print(query)
+    cur.execute(query)
+    data = cur.fetchall()
+    conn.close()
+    return data
 
 def create_table(table_name, columns):
     conn = psycopg2.connect(
@@ -42,3 +60,35 @@ def insert_into_table(table_name, columns, data):
     
 def clean_column_names(columns):
     return [col.replace(' ', '_') for col in columns]
+
+def get_tables():
+    conn = psycopg2.connect(
+        database=settings.POSTGRE_DB_NAME,
+        user=settings.POSTGRE_DB_USER,
+        password=settings.POSTGRE_DB_PASSWORD,
+        host=settings.POSTGRE_DB_HOST,
+        port=settings.POSTGRE_DB_PORT
+    )
+    cur = conn.cursor()
+
+    query = f"SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+    cur.execute(query)
+    tables = cur.fetchall()
+    conn.close()
+    return tables
+
+def get_columns(table_name):
+    conn = psycopg2.connect(
+        database=settings.POSTGRE_DB_NAME,
+        user=settings.POSTGRE_DB_USER,
+        password=settings.POSTGRE_DB_PASSWORD,
+        host=settings.POSTGRE_DB_HOST,
+        port=settings.POSTGRE_DB_PORT
+    )
+    cur = conn.cursor()
+
+    query = f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}'"
+    cur.execute(query)
+    columns = cur.fetchall()
+    conn.close()
+    return columns
