@@ -1,7 +1,6 @@
 import psycopg2
 from dynaconf import settings
 from app.db.postgre import engine, Session
-from app.models.ExampleModel import HastaneVerileri
 
 session = Session(bind=engine)
 

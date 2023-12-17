@@ -8,10 +8,10 @@ from app.db.mongodb import get_database
 
 # pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def get_user(username: str):
+def get_user(email: str):
     db = get_database()
     users = db[settings.MONGODB_DB_NAME]["Users"]
-    user_data = users.find_one({"username": username})
+    user_data = users.find_one({"email": email})
     if user_data:
         return dict(user_data)
     return None

@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional, List
 
-class Users(BaseModel):
-    email: str
+class Projects(BaseModel):
+    dashboards: List[object]
     password: str
     full_name: str
     department: str
@@ -23,7 +23,3 @@ class Users(BaseModel):
             ]
         }
     }
-
-class UserLogin(BaseModel):
-    email: str
-    password: str
