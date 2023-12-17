@@ -1,7 +1,13 @@
 [default]
-POSTGRE_SQL_URL = "postgresql://postgres:root@localhost/saglik_cepte_db"
+POSTGRE_SQL_URL = "postgresql://postgres:root@localhost/"
 POSTGRE_DB_NAME = "saglik_cepte_db"
 POSTGRE_DB_USER = "postgres"
 POSTGRE_DB_PASSWORD = "root"
 POSTGRE_DB_HOST = "localhost"
-POSTGRE_DB_PORT = "5432"
+POSTGRE_DB_PORT = 5432
+MONGODB_HOST = "mongodb://localhost/data_anaylser_db:27017"
+MONGODB_DB_NAME = "data_anaylser_db"
+MONGODB_PORT = 27017
+SECRET_KEY= "8e36a4dbff099935cfb8bf950b37c09816387d6fc2ce0f3085610b33486f4007"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES=60

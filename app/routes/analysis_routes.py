@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from app.crud.example import get_all_data, get_tables, get_columns, get_column_data
@@ -10,10 +10,10 @@ router = APIRouter()
 async def root():
     return {"message": "Hello World"}
 
-@router.get("/get_all_data")
-async def get_data():
+@router.post("/get_all_data/{datasource}")
+async def get_data(datasource:str, columns: object | None = None):
     try:
-        data = get_all_data()
+        data = get_all_data(datasource, columns)
         return JSONResponse(
             status_code=200,
             content={

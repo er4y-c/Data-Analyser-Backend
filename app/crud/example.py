@@ -5,8 +5,24 @@ from app.models.ExampleModel import HastaneVerileri
 
 session = Session(bind=engine)
 
-def get_all_data():
-    return session.query(HastaneVerileri).all()
+def get_all_data(table_name, columns):
+    conn = psycopg2.connect(
+        database=settings.POSTGRE_DB_NAME,
+        user=settings.POSTGRE_DB_USER,
+        password=settings.POSTGRE_DB_PASSWORD,
+        host=settings.POSTGRE_DB_HOST,
+        port=settings.POSTGRE_DB_PORT
+    )
+    query = f"SELECT * FROM {table_name}"
+    if columns is not None:
+        query = f"SELECT {', '.join(columns)} FROM {table_name}"
+
+    cur = conn.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+    conn.close()
+
+    return data
 
 def get_column_data(table_name, column_names):
     conn = psycopg2.connect(
